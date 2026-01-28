@@ -1,0 +1,91 @@
+table calendario
+	lineageTag: b1843eba-b784-4b35-aa61-b98b587b509b
+	dataCategory: Time
+
+	column Data
+		dataType: dateTime
+		isKey
+		formatString: dd/mm/yy
+		lineageTag: 9988772e-ca56-4e0c-997d-aacb577ea711
+		summarizeBy: none
+		sourceColumn: Data
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column Ano
+		dataType: int64
+		formatString: 0
+		lineageTag: 0950b706-4a88-450a-9166-29bf3086ce80
+		summarizeBy: none
+		sourceColumn: Ano
+
+		annotation SummarizationSetBy = User
+
+	column MesAno
+		dataType: string
+		lineageTag: 13e7c8ef-9b02-4a24-ae22-2866e0cd2326
+		summarizeBy: none
+		sourceColumn: MesAno
+		sortByColumn: MesInicio
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column MesInicio
+		dataType: dateTime
+		formatString: dd/mm/yy
+		lineageTag: d17ec7b8-56d6-4941-a63d-4d39cda17da9
+		summarizeBy: none
+		sourceColumn: MesInicio
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	partition calendario = m
+		mode: import
+		queryGroup: Dimensões
+		source = ```
+				let
+				    dataInicial = data_inicial, 
+				    dataFinal = data_final, 
+				    
+				    datas = List.Dates(
+				        dataInicial, 
+				        Duration.Days(dataFinal-dataInicial) + 1, 
+				        #duration(1, 0, 0, 0)
+				    ),
+				
+				    calendario = #table(
+				        type table[
+				            Data = date,
+				            Ano = Int64.Type,
+				            MesAno = text,
+				            MesInicio = date
+				        ],
+				        List.Transform(
+				            datas,
+				            each {
+				                _,
+				                Date.Year(_),
+				                Date.ToText(_, [Format="MMM/yy", Culture="pt-BR"]),
+				                Date.StartOfMonth(_)
+				            }
+				        )
+				    )
+				
+				in
+				    calendario
+				```
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

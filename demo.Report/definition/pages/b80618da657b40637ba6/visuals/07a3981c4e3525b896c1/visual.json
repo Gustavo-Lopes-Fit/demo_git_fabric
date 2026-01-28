@@ -1,0 +1,117 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
+  "name": "07a3981c4e3525b896c1",
+  "position": {
+    "x": 413.03195635229929,
+    "y": 68.838659392049877,
+    "z": 0,
+    "height": 413.03195635229929,
+    "width": 732.28371005455961,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "areaChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "calendario"
+                    }
+                  },
+                  "Property": "Data"
+                }
+              },
+              "queryRef": "calendario.Data",
+              "nativeQueryRef": "Data",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "cotacoes"
+                        }
+                      },
+                      "Property": "Cotacao"
+                    }
+                  },
+                  "Function": 1
+                }
+              },
+              "queryRef": "Avg(cotacoes.Cotacao)",
+              "nativeQueryRef": "Média de Cotacao"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "calendario"
+                  }
+                },
+                "Property": "Data"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "3d5d8bf63436d8963c02",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "calendario"
+              }
+            },
+            "Property": "Data"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "bf368534a2e2fb881877",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "cotacoes"
+                  }
+                },
+                "Property": "Cotacao"
+              }
+            },
+            "Function": 1
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}
