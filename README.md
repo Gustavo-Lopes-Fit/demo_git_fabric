@@ -5,3 +5,5 @@ Criaremos um projeto no Power BI completo e integraremos
 Depois faremos isso com o fabric
 
 E ainda replicaremos com AzureDevops!
+
+A aula esta realmente incrível!
